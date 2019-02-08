@@ -976,9 +976,6 @@ static int tegra_machine_driver_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, card);
 	snd_soc_card_set_drvdata(card, machine);
 
-	if (machine->soc_data->write_cdev1_state)
-		machine->audio_clock.clk_cdev1_state = 0;
-
 	if (machine->soc_data->write_idle_bias_off_state)
 		card->dapm.idle_bias_off = true;
 

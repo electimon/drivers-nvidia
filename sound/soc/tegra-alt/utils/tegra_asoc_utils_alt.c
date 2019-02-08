@@ -2,7 +2,7 @@
  * tegra_asoc_utils_alt.c - MCLK and DAP Utility driver
  *
  * Author: Stephen Warren <swarren@nvidia.com>
- * Copyright (c) 2010-2018 NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2010-2019 NVIDIA CORPORATION.  All rights reserved.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -177,14 +177,12 @@ int tegra_alt_asoc_utils_clk_enable(struct tegra_asoc_audio_clock_info *data)
 		dev_err(data->dev, "Can't enable cdev1: %d\n", err);
 		return err;
 	}
-	data->clk_cdev1_state = 1;
 
 	err = clk_prepare_enable(data->clk_cdev2);
 	if (err) {
 		dev_err(data->dev, "Can't enable cdev2: %d\n", err);
 		return err;
 	}
-	data->clk_cdev2_state = 1;
 
 	return 0;
 }
@@ -193,10 +191,8 @@ EXPORT_SYMBOL_GPL(tegra_alt_asoc_utils_clk_enable);
 int tegra_alt_asoc_utils_clk_disable(struct tegra_asoc_audio_clock_info *data)
 {
 	clk_disable_unprepare(data->clk_cdev1);
-	data->clk_cdev1_state = 0;
 
 	clk_disable_unprepare(data->clk_cdev2);
-	data->clk_cdev2_state = 0;
 
 	return 0;
 }
@@ -247,7 +243,6 @@ int tegra_alt_asoc_utils_init(struct tegra_asoc_audio_clock_info *data,
 		dev_err(data->dev, "Can't enable clk cdev1/extern1");
 		return ret;
 	}
-	data->clk_cdev1_state = 1;
 
 	data->clk_cdev2 = devm_clk_get(dev, "extern2");
 	if (IS_ERR(data->clk_cdev2)) {
@@ -261,7 +256,6 @@ int tegra_alt_asoc_utils_init(struct tegra_asoc_audio_clock_info *data,
 		dev_err(data->dev, "Can't enable clk cdev2/extern2");
 		return ret;
 	}
-	data->clk_cdev2_state = 1;
 
 	/* Control the aud mclk rate and parent for usecases which might
 	 * need fixed rate and needs to be derived from other possible

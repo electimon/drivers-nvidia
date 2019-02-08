@@ -1145,7 +1145,6 @@ static int tegra_admaif_probe(struct platform_device *pdev)
 	if (!admaif)
 		return -ENOMEM;
 
-	admaif->refcnt = 0;
 	admaif->dev = &pdev->dev;
 	admaif->soc_data = (struct tegra_admaif_soc_data *)match->data;
 	admaif->is_shutdown = false;
